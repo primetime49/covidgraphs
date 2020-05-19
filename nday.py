@@ -29,7 +29,14 @@ def moving_average(d,l):
         i += 1
     return result
 
-page = requests.get('https://www.worldometers.info/coronavirus/country/indonesia')
+page = ''
+country = ''
+try:
+  country = input('insert country name: ')
+  page = requests.get('https://www.worldometers.info/coronavirus/country/'+country.lower())
+except:
+  print('not found')
+  exit()
 soup = BeautifulSoup(page.content, 'html.parser')
 res = str(soup)
 
@@ -42,20 +49,24 @@ daily_new_death = normalize_data(death)
 
 d = int(input('n-day moving average: n? '))
 
-fig, ax = plt.subplots()
-ax.xaxis.set_major_locator(mticker.MultipleLocator(3))
-ax.xaxis.set_minor_locator(mticker.MultipleLocator(1))
-ax.xaxis.set_minor_formatter(mticker.NullFormatter())
-plt.xticks(rotation=90)
-plt.plot(days[(d-1):], moving_average(d,daily_new_case))
+fig, axs = plt.subplots(2, 1, constrained_layout=True)
 plt.grid()
-plt.show()
 
-fig, ax = plt.subplots()
-ax.xaxis.set_major_locator(mticker.MultipleLocator(3))
-ax.xaxis.set_minor_locator(mticker.MultipleLocator(1))
-ax.xaxis.set_minor_formatter(mticker.NullFormatter())
-plt.xticks(rotation=90)
-plt.plot(days[(d-1):], moving_average(d,daily_new_death))
-plt.grid()
+axs[0].plot(days[(d-1):], moving_average(d,daily_new_case))
+axs[0].xaxis.set_major_locator(mticker.MultipleLocator(3))
+axs[0].xaxis.set_minor_locator(mticker.MultipleLocator(1))
+axs[0].xaxis.set_minor_formatter(mticker.NullFormatter())
+axs[0].set_ylabel('Daily new cases')
+axs[0].xaxis.set_tick_params(rotation=90)
+axs[0].grid()
+
+axs[1].plot(days[(d-1):], moving_average(d,daily_new_death))
+axs[1].xaxis.set_major_locator(mticker.MultipleLocator(3))
+axs[1].xaxis.set_minor_locator(mticker.MultipleLocator(1))
+axs[1].xaxis.set_minor_formatter(mticker.NullFormatter())
+axs[1].set_ylabel('Daily new cases')
+axs[1].xaxis.set_tick_params(rotation=90)
+
+fig.suptitle(country)
+
 plt.show()
