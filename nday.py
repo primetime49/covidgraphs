@@ -64,7 +64,7 @@ axs[1].plot(days[(d-1):], moving_average(d,daily_new_death))
 axs[1].xaxis.set_major_locator(mticker.MultipleLocator(3))
 axs[1].xaxis.set_minor_locator(mticker.MultipleLocator(1))
 axs[1].xaxis.set_minor_formatter(mticker.NullFormatter())
-axs[1].set_ylabel('Daily new cases')
+axs[1].set_ylabel('Daily new deaths')
 axs[1].xaxis.set_tick_params(rotation=90)
 
 fig.suptitle(country)
