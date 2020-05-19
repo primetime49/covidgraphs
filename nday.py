@@ -44,7 +44,7 @@ days = re.search('categories: \[.+\]',res).group().replace('\"','').split('[')[1
 daily_new_case = normalize_data(case)
 daily_new_death = normalize_data(death)
 
-d = int(input('n-day moving average: n? '))
+d = int(input('n-day moving average: n? (suggested 3/5/7/10) '))
 
 fig, axs = plt.subplots(2, 1, constrained_layout=True)
 plt.grid()
