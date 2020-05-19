@@ -29,16 +29,13 @@ def moving_average(d,l):
         i += 1
     return result
 
-page = ''
-country = ''
-try:
-  country = input('insert country name: ').replace(' ','-')
-  page = requests.get('https://www.worldometers.info/coronavirus/country/'+country.lower())
-except:
-  print('not found')
-  exit()
+country = input('insert country name: ').replace(' ','-')
+page = requests.get('https://www.worldometers.info/coronavirus/country/'+country.lower())
 soup = BeautifulSoup(page.content, 'html.parser')
 res = str(soup)
+if 'We might have removed the page from our website' in res:
+  print('country not found')
+  exit()
 
 case = re.search('\'Daily Cases.+\n.+\n.+\n.+\[.+\]',res).group().split('[')[1][:-1].split(',')
 death = re.search('\'Daily Deaths.+\n.+\n.+\n.+\[.+\]',res).group().split('[')[1][:-1].split(',')
