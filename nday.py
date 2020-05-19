@@ -32,7 +32,7 @@ def moving_average(d,l):
 page = ''
 country = ''
 try:
-  country = input('insert country name: ')
+  country = input('insert country name: ').replace(' ','-')
   page = requests.get('https://www.worldometers.info/coronavirus/country/'+country.lower())
 except:
   print('not found')
