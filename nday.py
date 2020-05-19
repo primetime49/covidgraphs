@@ -30,6 +30,8 @@ def moving_average(d,l):
     return result
 
 country = input('insert country name: ').replace(' ','-')
+if country == '':
+  country = 'indonesia'
 page = requests.get('https://www.worldometers.info/coronavirus/country/'+country.lower())
 soup = BeautifulSoup(page.content, 'html.parser')
 res = str(soup)
@@ -44,7 +46,10 @@ days = re.search('categories: \[.+\]',res).group().replace('\"','').split('[')[1
 daily_new_case = normalize_data(case)
 daily_new_death = normalize_data(death)
 
-d = int(input('n-day moving average: n? (suggested 3/5/7/10) '))
+d = input('n-day moving average: n? (suggested 3/5/7/10) ')
+if d == '':
+  d = 7
+d = int(d)
 
 fig, axs = plt.subplots(2, 1, constrained_layout=True)
 plt.grid()
@@ -64,6 +69,6 @@ axs[1].xaxis.set_minor_formatter(mticker.NullFormatter())
 axs[1].set_ylabel('Daily new deaths')
 axs[1].xaxis.set_tick_params(rotation=90)
 
-fig.suptitle(country)
+fig.suptitle(country+' '+str(d)+'-day moving average')
 
 plt.show()
